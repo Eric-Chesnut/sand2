@@ -9,12 +9,12 @@ Board::Board(int w, int h)
 	{
 		//throw an error
 	}
-	int size = width + width * height + 1;
+	int size = w + w * h + 1;
 	positions = new Pixel[size];
 	width = w;
 	height = h;
-	emptyBoard();
-	setBorder(); // give it a border
+	//emptyBoard();
+	//setBorder(); // give it a border
 }
 Board::~Board()
 {

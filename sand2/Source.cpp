@@ -21,6 +21,8 @@ int main(int argc, char* args[])
 {
 	Board test(SCREEN_WIDTH, SCREEN_HEIGHT);
 	Pixel sand(2, false, 144, 144, 144, 255);
+	//test.emptyBoard();
+	//test.setBorder();
 	cout << test.getPosition(SCREEN_WIDTH / 2, 0).getMass() << " " << test.getPosition(SCREEN_WIDTH / 2, 2).getMass() << endl;
 	test.setPosition(SCREEN_WIDTH / 2, 2, sand);
 	cout << test.getPosition(SCREEN_WIDTH / 2, 3).getMass() << " " << test.getPosition(SCREEN_WIDTH / 2, 2).getMass() << endl;
