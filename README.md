@@ -1,2 +1,2 @@
 # sand2
-making sand better, class based architecture 
+Making sand better, class based architecture 
