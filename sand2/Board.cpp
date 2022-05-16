@@ -39,18 +39,11 @@ void Board::emptyBoard()
 {
 	Pixel empty;
 	int size = width + width * height;
-	for (int x = 0; x < width; x++)
-	{
-		for (int y = 0; y < height; y++)
-		{
-			setPosition(x, y, empty);
-		}
-	}
-	/*
+
 	for (int p = 0; p < size; p++)
 	{
 		positions[p] = empty;
-	}*/
+	}
 }
 Pixel& Board::getPosition(int x, int y)
 {

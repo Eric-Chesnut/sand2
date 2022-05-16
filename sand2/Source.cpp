@@ -22,7 +22,7 @@ bool init();
 void close();
 
 //draws the screen
-void drawScreen(Board* toDraw);
+void drawScreen(Board *toDraw);
 
 //The window we'll be rendering to
 SDL_Window* gWindow = NULL;
@@ -115,6 +115,7 @@ int main(int argc, char* args[])
 	init();
 	Board test(SCREEN_WIDTH, SCREEN_HEIGHT);
 	Pixel sand(2, false, 144, 144, 144, 255);
+	Pixel water(1, true, 0, 0, 255, 0xFF);
 	//test.emptyBoard();
 	//test.setBorder();
 	cout << test.getPosition(SCREEN_WIDTH / 2, 0).getMass() << " " << test.getPosition(SCREEN_WIDTH / 2, 2).getMass() << endl;
@@ -124,6 +125,7 @@ int main(int argc, char* args[])
 	cout << test.getPosition(SCREEN_WIDTH / 2, 3).getMass() << " " << test.getPosition(SCREEN_WIDTH / 2, 2).getMass() << endl;
 	bool quit = false;
 	SDL_Event e;
+	int wet = 100;
 	while (!quit)
 	{
 		while (SDL_PollEvent(&e) != 0)
@@ -141,6 +143,11 @@ int main(int argc, char* args[])
 		
 		//donee--;
 		test.setPosition(SCREEN_WIDTH / 2, 2, sand);
+		if (wet > 0)
+		{
+			test.setPosition(3*SCREEN_WIDTH / 4, 2, water);
+			wet--;
+		}
 	//}
 
 	}
