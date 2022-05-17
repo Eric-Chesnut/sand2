@@ -10,10 +10,10 @@ Board::Board(int w, int h)
 		//throw an error
 	}
 	int size = w + w * h + 1;
-	positions = new Pixel[size];
+	positions = new int[size];
 	width = w;
 	height = h;
-	//emptyBoard();
+	emptyBoard();
 	//setBorder(); // give it a border
 }
 Board::~Board()
@@ -22,8 +22,8 @@ Board::~Board()
 }
 Board::Board(const Board& b1)
 {
-	int size = width + width * height + 1;
-	positions = new Pixel[size];
+	int size = b1.width + b1.width * b1.height + 1;
+	positions = new int[size];
 	positions = b1.positions;
 	width = b1.width;
 	height = b1.height;
@@ -37,15 +37,15 @@ Board& Board::operator=(Board temp)
 }
 void Board::emptyBoard()
 {
-	Pixel empty;
+	
 	int size = width + width * height;
 
 	for (int p = 0; p < size; p++)
 	{
-		positions[p] = empty;
+		positions[p] = 0;
 	}
 }
-Pixel& Board::getPosition(int x, int y)
+int Board::getPosition(int x, int y)
 {
 	if (x >= 0 && x <= width && y >= 0 && y <= height)
 	{
@@ -53,7 +53,7 @@ Pixel& Board::getPosition(int x, int y)
 	}
 	return positions[0];
 }
-void Board::setPosition(int x, int y, Pixel p)
+void Board::setPosition(int x, int y, int p)
 {
 	if (x >= 0 && x <= width && y >= 0 && y <= height)
 	{
@@ -62,27 +62,27 @@ void Board::setPosition(int x, int y, Pixel p)
 }
 void Board::setBorder()
 {
-	Pixel border(-1, false, 0, 0, 0, 255);
 	for (int y = 0; y <= height; y++)
 	{
-		setPosition(0, y, border);
-		setPosition(1, y, border);
-		setPosition(width, y, border);
-		setPosition(width-1, y, border);
+		setPosition(0, y, -1);
+		setPosition(1, y, -1);
+		setPosition(width, y, -1);
+		setPosition(width-1, y, -1);
 	}
 	for (int x = 0; x <= width; x++)
 	{
-		setPosition(x, 0, border);
-		setPosition(x, 1, border);
-		setPosition(x, height, border);
-		setPosition(x, height-1, border);
+		setPosition(x, 0, -1);
+		setPosition(x, 1, -1);
+		setPosition(x, height, -1);
+		setPosition(x, height-1, -1);
 	}
 }
 void Board::runSim()
 {
 	int direction;
 	int size = width + width * height + 1;
-	Pixel* temp = new Pixel[size];
+	int* temp = new int[size];
+	
 	for (int p = 0; p < size; p++) // copy old array into temp array
 	{
 		temp[p] = positions[p];
@@ -93,38 +93,39 @@ void Board::runSim()
 	{
 		for (int x = 2; x < width - 1; x++)
 		{
-			if (temp[x + y * width].getMass() > 0) // not empty or border
+			if (temp[x + y * width] == 1) // if sand
 			{
-				positions[x + y * width] = temp[x + y * width]; // put the sand/thing back where it was, then move it if it should move
+				positions[x + y * width] = temp[x + y * width]; // put the sand back where it was, then move it if it should move
 				direction = rand() % 2;
 				if (direction == 0)
 				{
 					direction = -1;
 				} // checks if the thing below x, y has a lower mass then itself, and isn't a border spot
-				if (temp[x + (y + 1) * width].getMass() < temp[x + y * width].getMass() && temp[x + (y + 1) * width].getMass() >= 0)
+				if (temp[x + (y + 1) * width] == 0)
 				{ // check again
-					if (getPosition(x, y + 1).getMass() < getPosition(x, y).getMass())
+					if (getPosition(x, y + 1) == 0)
 					{
 						std::swap(positions[x + y * width], positions[x + (y + 1) * width]);
 						continue;
 					}
 				} // now checks the first diagonal, down to the right or left, down to the -direction
-				if (temp[(x-direction) + (y + 1) * width].getMass() < temp[x + y * width].getMass() && temp[(x-direction) + (y + 1) * width].getMass() >= 0)
+				if (temp[(x-direction) + (y + 1) * width]== 0)
 				{
-					if (getPosition(x - direction, y + 1).getMass() < getPosition(x, y).getMass())
+					if (getPosition(x - direction, y + 1) == 0)
 					{
 						std::swap(positions[x + y * width], positions[(x-direction) + (y + 1) * width]);
 						continue;
 					}
 				}
-				if (temp[(x + direction) + (y + 1) * width].getMass() < temp[x + y * width].getMass() && temp[(x + direction) + (y + 1) * width].getMass() >= 0)
+				if (temp[(x + direction) + (y + 1) * width]== 0)
 				{
-					if (getPosition(x + direction, y + 1).getMass() < getPosition(x, y).getMass())
+					if (getPosition(x + direction, y + 1) == 0)
 					{
 						std::swap(positions[x + y * width], positions[(x + direction) + (y + 1) * width]);
 						continue;
 					}
 				}
+				/*
 				if (temp[x + y * width].flows()) // if the pixel flows
 				{ // check if -direction is empty, if so flow into it
 					if (temp[(x - direction) + y * width].getMass() == 0)
@@ -143,7 +144,7 @@ void Board::runSim()
 							continue;
 						}
 					}
-				}
+				}*/
 			}
 		}
 	}

@@ -3,15 +3,15 @@
 
 class Board {
 	int width, height;
-	Pixel* positions;
+	int* positions;
 public:
 	Board(int w, int h);
 	~Board();
 	Board(const Board& b1);
 	Board& operator=(Board temp);
 	void emptyBoard();
-	Pixel& getPosition(int x, int y);
-	void setPosition(int x, int y, Pixel p);
+	int getPosition(int x, int y);
+	void setPosition(int x, int y, int p);
 	void setBorder();
 	void runSim();
 };
