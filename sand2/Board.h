@@ -11,6 +11,7 @@ public:
 	Board& operator=(Board temp);
 	void emptyBoard();
 	int getPosition(int x, int y);
+	int getPosition(int i);
 	void setPosition(int x, int y, int p);
 	void setBorder();
 	void runSim();

@@ -45,6 +45,14 @@ void Board::emptyBoard()
 		positions[p] = 0;
 	}
 }
+
+int Board::getPosition(int i)
+{
+	if (i < (width + width * height + 1))
+	{
+		return positions[i];
+	}
+}
 int Board::getPosition(int x, int y)
 {
 	if (x >= 0 && x <= width && y >= 0 && y <= height)
